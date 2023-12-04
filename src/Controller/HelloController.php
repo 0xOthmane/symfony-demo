@@ -4,14 +4,17 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HelloController extends AbstractController
 {
-    #[Route('/hello', name: 'app_hello')]
-    public function index()
+    #[Route('/hello/{name}', name: 'app_hello')]
+    public function index(Request $request, string $name): Response
     {
-        return new Response("Hello");
+        return $this->render('hello.html.twig', [
+            'name' => $name
+        ]);
     }
 }
