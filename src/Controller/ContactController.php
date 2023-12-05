@@ -10,12 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'api_contact')]
+    #[Route('/api/contact', name: 'api_contact')]
     public function index(
         #[MapRequestPayload]
         ContactDTO $data
-        ): Response
-    {
-        dd($data);
+    ): Response {
+        return $this->json($data, context: ['groups' => ['api:contact']]);
     }
 }
