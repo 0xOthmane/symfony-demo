@@ -6,6 +6,7 @@ use App\DTO\ContactDTO;
 use App\Entity\Post;
 use App\Form\ContactFormType;
 use App\Repository\PostRepository;
+use App\Security\Voter\PostVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,6 +19,9 @@ class HelloController extends AbstractController
     #[Route('/hello/{name}', name: 'app_hello')]
     public function index(Request $request, string $name, EntityManagerInterface $manager, PostRepository $repository): Response
     {
+        $post= $repository->find(1);
+        $this->denyAccessUnlessGranted(PostVoter::VIEW, $post);
+
         $post = new Post();
         $post->setCreatedAt(new \DateTimeImmutable());
         $post->setUpdatedAt(new \DateTimeImmutable());
